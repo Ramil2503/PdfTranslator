@@ -116,7 +116,7 @@ def word_to_pdf(docx_path, pdf_path):
         print(f"Error converting Word to PDF: {e}")
 
 def main():
-    pdf_path = 'example_small.pdf'
+    pdf_path = 'example_small_tables.pdf'
     temp_docx_path = 'temp.docx'
     output_pdf_path = 'translated.pdf'
 
