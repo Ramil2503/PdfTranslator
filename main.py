@@ -69,7 +69,7 @@ def apply_style(run, font_size, font_color, bold, italic):
     run.bold = bold  # Set bold
     run.italic = italic  # Set italic
 
-def translate_word(docx_path):
+def translate_word(docx_path, dest_language='ru'):
     """Translate text in the Word document and preserve font size, color, and style."""
     doc = Document(docx_path)
 
@@ -89,7 +89,7 @@ def translate_word(docx_path):
                 })
 
             # Translate entire paragraph text at once
-            translated_text = translate_text(full_text)
+            translated_text = translate_text(full_text, dest_language)
             
             if translated_text is None:
                 translated_text = ""  # Ensure translated_text is a valid string
