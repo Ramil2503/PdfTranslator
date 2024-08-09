@@ -107,13 +107,22 @@ def translate_word(docx_path, dest_language='ru'):
 
     doc.save(docx_path)
 
+import pythoncom
+
 def word_to_pdf(docx_path, pdf_path):
     """Convert Word document to PDF."""
     from docx2pdf import convert as docx2pdf_convert
     try:
+        # Initialize COM
+        pythoncom.CoInitialize()
         docx2pdf_convert(docx_path, pdf_path)
     except Exception as e:
         print(f"Error converting Word to PDF: {e}")
+        import traceback
+        print(traceback.format_exc())
+    finally:
+        # Uninitialize COM
+        pythoncom.CoUninitialize()
 
 def main():
     pdf_path = 'example_small_tables.pdf'
