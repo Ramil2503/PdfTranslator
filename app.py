@@ -41,12 +41,13 @@ def upload_file():
     # Save the uploaded file
     file.save(pdf_path)
 
-    # Process the file
-    pdf_to_word(pdf_path, docx_path)
-    
     def update_progress(progress, text):
         print(f"Progress: {progress * 100}% - {text}")  # Debug print statement
         socketio.emit('progress', {'progress': progress * 100, 'text': text})
+        
+    # Process the file
+    update_progress(0, 'Reading PDF file...')
+    pdf_to_word(pdf_path, docx_path)
 
     # Start processing and updating progress
     update_progress(0, 'Starting translation...')
