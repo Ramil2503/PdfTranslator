@@ -109,7 +109,7 @@ def translate_word(docx_path, dest_language='ru', progress_callback=None):
 
             translated_paragraphs += 1
             if progress_callback:
-                progress_callback(translated_paragraphs / total_paragraphs)
+                progress_callback(translated_paragraphs / total_paragraphs, f'Translated paragraph {translated_paragraphs} of {total_paragraphs}')
 
     doc.save(docx_path)
 

@@ -44,16 +44,17 @@ def upload_file():
     # Process the file
     pdf_to_word(pdf_path, docx_path)
     
+    def update_progress(progress, text):
+        print(f"Progress: {progress * 100}% - {text}")  # Debug print statement
+        socketio.emit('progress', {'progress': progress * 100, 'text': text})
 
-    def update_progress(progress):
-        print(f"Progress: {progress * 100}%")  # Debug print statement
-        socketio.emit('progress', {'progress': progress * 100})
-
-
+    # Start processing and updating progress
+    update_progress(0, 'Starting translation...')
     translate_word(docx_path, language, progress_callback=update_progress)
     
+    update_progress(100, 'Translation complete. Preparing PDF...')
     word_to_pdf(docx_path, output_pdf_path)
-    update_progress(100)
+    update_progress(100, 'Completed')
 
     # Clean up
     os.remove(pdf_path)

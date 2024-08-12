@@ -58,9 +58,11 @@
         </form>
         <div id="progress">
             <div class="progress-bar">
-                <span id="progress-bar-text">0%</span>
+                <span id="progress-bar-text"></span>
             </div>
+            <div id="progress-description"></div>
         </div>
+        
     </div>
 
     <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
@@ -74,13 +76,24 @@
         socket.on('progress', function(data) {
             console.log('Progress update:', data); // Debug statement
             const progress = data.progress;
+            const text = data.text || '';
             document.querySelector('.progress-bar span').style.width = progress + '%';
             document.querySelector('#progress-bar-text').textContent = Math.round(progress) + '%';
+            document.querySelector('#progress-description').textContent = text;
         });
 
         socket.on('disconnect', () => {
             console.log('Disconnected from Socket.IO server');
         });
+
+        window.addEventListener('beforeunload', function(event) {
+            if (isProcessing) {
+                const message = 'The translation is in progress. If you leave, your progress might be lost.';
+                event.returnValue = message; // Standard for most browsers
+                return message; // For some browsers
+            }
+        });
+
     </script>
 </body>
 </html>
