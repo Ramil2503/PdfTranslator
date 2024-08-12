@@ -69,9 +69,11 @@ def apply_style(run, font_size, font_color, bold, italic):
     run.bold = bold  # Set bold
     run.italic = italic  # Set italic
 
-def translate_word(docx_path, dest_language='ru'):
+def translate_word(docx_path, dest_language='ru', progress_callback=None):
     """Translate text in the Word document and preserve font size, color, and style."""
     doc = Document(docx_path)
+    total_paragraphs = len(doc.paragraphs)
+    translated_paragraphs = 0
 
     for paragraph in doc.paragraphs:
         if paragraph.text.strip():
@@ -105,7 +107,12 @@ def translate_word(docx_path, dest_language='ru'):
                 new_run = paragraph.add_run(chunk)
                 apply_style(new_run, style['font_size'], style['font_color'], style['bold'], style['italic'])
 
+            translated_paragraphs += 1
+            if progress_callback:
+                progress_callback(translated_paragraphs / total_paragraphs)
+
     doc.save(docx_path)
+
 
 import pythoncom
 

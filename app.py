@@ -1,9 +1,11 @@
-from flask import Flask, request, send_file, render_template
+from flask import Flask, request, send_file, render_template, jsonify
+from flask_socketio import SocketIO, emit
 import os
 import uuid
-from main import pdf_to_word, translate_word, word_to_pdf  # Adjust import based on your setup
+from main import pdf_to_word, translate_word, word_to_pdf
 
 app = Flask(__name__)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 UPLOAD_FOLDER = 'uploads'
 OUTPUT_FOLDER = 'outputs'
@@ -41,8 +43,17 @@ def upload_file():
 
     # Process the file
     pdf_to_word(pdf_path, docx_path)
-    translate_word(docx_path, language)
+    
+
+    def update_progress(progress):
+        print(f"Progress: {progress * 100}%")  # Debug print statement
+        socketio.emit('progress', {'progress': progress * 100})
+
+
+    translate_word(docx_path, language, progress_callback=update_progress)
+    
     word_to_pdf(docx_path, output_pdf_path)
+    update_progress(100)
 
     # Clean up
     os.remove(pdf_path)
@@ -51,4 +62,4 @@ def upload_file():
     return send_file(output_pdf_path, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app, debug=True)
