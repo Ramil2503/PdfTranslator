@@ -7,20 +7,24 @@ This project allows you to translate text within PDF documents. The process invo
 2. **Git**: Required for cloning the repository. (Alternatively, you can download project as ZIP and skip "Clone the Repository" step.)
 
 ## Installation
-1. Clone the Repository:
+1. Clone the Repository (or download as ZIP):
 ```bash
 git clone https://github.com/Ramil2503/PdfTranslator
+```
+
+2. Open the folder in terminal
+```bash
 cd PdfTranslator
 ```
 
-2. Create a Virtual Environment (Optional but recommended):
+3. Create a Virtual Environment (Optional but recommended):
 
-**Windows**
+**Windows:**
 ```bash
 python -m venv venv
 venv\Scripts\activate
 ```
-**macOS**
+**macOS and Linux:**
 ```bash
 python -m venv venv
 source venv/bin/activate
@@ -44,3 +48,19 @@ The application will be accessible at http://127.0.0.1:5000/.
 * Open your web browser and navigate to the application URL.
 * Upload a PDF file and select the target language for translation.
 * Download the translated PDF once the process is complete.
+
+## Managing the Virtual Environment
+### Activating the Virtual Environment
+**Windows**
+```bash
+venv\Scripts\activate
+```
+**macOS and Linux**
+```bash
+source venv/bin/activate
+```
+### Deactivating the Virtual Environment
+**Windows, macOS, and Linux**
+```bash
+deactivate
+```
