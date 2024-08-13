@@ -4,7 +4,7 @@ This project allows you to translate text within PDF documents. The process invo
 
 ## Prerequisites
 1. **Python 3.8+**: Ensure you have Python 3.8 or higher installed on your machine.
-2. **Git**: Required for cloning the repository.
+2. **Git**: Required for cloning the repository. (Alternatively, you can download project as ZIP and skip "Clone the Repository" step.)
 
 ## Installation
 1. Clone the Repository:
