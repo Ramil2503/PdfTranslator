@@ -6,43 +6,84 @@
     <title>PDF Translator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 90vh;
-            background-color: #f4f4f4;
+            height: 100vh;
+            color: #333;
         }
         .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
         }
-        input[type="file"], select, button {
-            margin: 10px 0;
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #007bff;
         }
-        #progress {
-            margin-top: 20px;
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="file"],
+        select,
+        button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
         .progress-bar {
-            width: 100%;
-            background-color: #f3f3f3;
+            position: relative;
+            background-color: #e9ecef;
             border-radius: 5px;
             overflow: hidden;
+            height: 20px;
+            margin-top: 20px;
+            width: 100%;
         }
         .progress-bar span {
             display: block;
-            height: 20px;
-            background-color: #4caf50;
+            height: 100%;
+            background-color: #28a745;
             width: 0;
             text-align: center;
             color: white;
             line-height: 20px;
+            transition: width 0.4s ease;
         }
         #download-button {
             display: none;
             margin-top: 20px;
+            font-size: 16px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        #download-button:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -51,13 +92,15 @@
         <h1>PDF Translator</h1>
         <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
             <label for="file">Choose PDF file:</label>
-            <input type="file" id="file" name="file" accept=".pdf" required><br>
+            <input type="file" id="file" name="file" accept=".pdf" required>
+            
             <label for="language">Select language:</label>
             <select id="language" name="language" required>
                 <option value="az">Azerbaijani</option>
                 <option value="ru">Russian</option>
                 <!-- Add more language options here -->
-            </select><br>
+            </select>
+            
             <button type="submit">Translate and Download</button>
         </form>
         <div id="progress">
@@ -80,7 +123,6 @@
         });
 
         socket.on('progress', function(data) {
-            console.log('Progress update:', data); // Debug statement
             const progress = data.progress;
             const text = data.text || '';
             document.querySelector('.progress-bar span').style.width = progress + '%';
@@ -124,7 +166,6 @@
                 return message; // For some browsers
             }
         });
-
     </script>
 </body>
 </html>
