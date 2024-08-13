@@ -49,6 +49,10 @@ The application will be accessible at http://127.0.0.1:5000/.
 * Upload a PDF file and select the target language for translation.
 * Download the translated PDF once the process is complete.
 
+3. Stop the Flask Application
+
+To stop the Flask application running in the terminal, press **Ctrl + C**.
+
 ## Managing the Virtual Environment
 ### Activating the Virtual Environment
 **Windows**
