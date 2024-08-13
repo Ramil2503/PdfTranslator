@@ -12,7 +12,7 @@ This project allows you to translate text within PDF documents. The process invo
 git clone https://github.com/Ramil2503/PdfTranslator
 ```
 
-2. Open the folder in terminal
+2. Open the terminal and navigate to the project folder
 ```bash
 cd PdfTranslator
 ```
