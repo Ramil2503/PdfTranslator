@@ -40,12 +40,16 @@
             color: white;
             line-height: 20px;
         }
+        #download-button {
+            display: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>PDF Translator</h1>
-        <form action="/upload" method="post" enctype="multipart/form-data">
+        <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
             <label for="file">Choose PDF file:</label>
             <input type="file" id="file" name="file" accept=".pdf" required><br>
             <label for="language">Select language:</label>
@@ -62,12 +66,14 @@
             </div>
             <div id="progress-description"></div>
         </div>
-        
+        <a id="download-button" href="#" download>Download Now</a>
     </div>
 
     <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
     <script>
         const socket = io();
+        const form = document.getElementById('upload-form');
+        const downloadButton = document.getElementById('download-button');
 
         socket.on('connect', () => {
             console.log('Connected to Socket.IO server');
@@ -84,6 +90,31 @@
 
         socket.on('disconnect', () => {
             console.log('Disconnected from Socket.IO server');
+        });
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.download_url) {
+                      // Automatically trigger download
+                      const link = document.createElement('a');
+                      link.href = data.download_url;
+                      link.download = ''; // This can be set to a specific filename if needed
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+
+                      // Show download button
+                      downloadButton.style.display = 'block';
+                      downloadButton.href = data.download_url;
+                  }
+              }).catch(error => console.error('Error:', error));
         });
 
         window.addEventListener('beforeunload', function(event) {

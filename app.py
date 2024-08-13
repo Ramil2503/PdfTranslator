@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file, render_template, jsonify
+from flask import Flask, request, send_file, render_template, jsonify, url_for
 from flask_socketio import SocketIO, emit
 import os
 import uuid
@@ -61,7 +61,16 @@ def upload_file():
     os.remove(pdf_path)
     os.remove(docx_path)
 
-    return send_file(output_pdf_path, as_attachment=True)
+    # Provide the URL for the download
+    return jsonify({'download_url': url_for('download_file', filename=output_pdf_filename)})
+
+@app.route('/download/<filename>')
+def download_file(filename):
+    file_path = os.path.join(OUTPUT_FOLDER, filename)
+    if os.path.exists(file_path):
+        return send_file(file_path, as_attachment=True)
+    else:
+        return "File not found", 404
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
