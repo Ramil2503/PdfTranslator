@@ -1,8 +1,8 @@
 from flask import Flask, request, send_file, render_template, jsonify, url_for
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 import os
 import uuid
-from main import pdf_to_word, translate_word, word_to_pdf
+from pdf_translator import pdf_to_word, translate_word, word_to_pdf
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")

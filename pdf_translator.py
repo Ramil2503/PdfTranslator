@@ -5,7 +5,6 @@ from docx.shared import Pt, RGBColor
 from deep_translator import GoogleTranslator
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import os
 
 def pdf_to_word(pdf_path, docx_path):
     """Convert PDF to Word, preserving font size and color."""
@@ -130,28 +129,3 @@ def word_to_pdf(docx_path, pdf_path):
     finally:
         # Uninitialize COM
         pythoncom.CoUninitialize()
-
-def main():
-    pdf_path = 'example_small_tables.pdf'
-    temp_docx_path = 'temp.docx'
-    output_pdf_path = 'translated.pdf'
-
-    # Step 1: Convert PDF to Word
-    print("Converting PDF to Word...")
-    pdf_to_word(pdf_path, temp_docx_path)
-    
-    # Step 2: Translate text in the Word document
-    print("Translating text in Word document...")
-    translate_word(temp_docx_path)
-    
-    # Step 3: Convert the modified Word document back to PDF
-    print("Converting Word to PDF...")
-    word_to_pdf(temp_docx_path, output_pdf_path)
-    
-    # Clean up temporary files
-    os.remove(temp_docx_path)
-    
-    print(f'Translation completed and saved to {output_pdf_path}')
-
-if __name__ == "__main__":
-    main()
